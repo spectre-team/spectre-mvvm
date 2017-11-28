@@ -17,7 +17,6 @@ environment:
 configuration:
   - Debug
   - Release
-services: iis
 
 # skip branch build if there is an active pull request
 skip_branch_with_pr: true
