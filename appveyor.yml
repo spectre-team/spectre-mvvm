@@ -39,25 +39,25 @@ nuget:
   project_feed: false
 
 install:
-- cmd: C:\projects\spectre\scripts\restore_nugets.bat
-- ps: C:\projects\spectre\scripts\InstallNode.ps1
+- cmd: C:\projects\platform-components\scripts\restore_nugets.bat
+- ps: C:\projects\platform-components\scripts\InstallNode.ps1
 
 build_script:
-- cmd: msbuild "C:\projects\spectre\src\Spectre.sln" /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /m /verbosity:quiet /p:DeployOnBuild=true /p:PublishProfile=%CONFIGURATION% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+- cmd: msbuild "C:\projects\platform-components\src\platform-components.sln" /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /m /verbosity:quiet /p:DeployOnBuild=true /p:PublishProfile=%CONFIGURATION% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 - cmd: C:\projects\spectre\scripts\build_ng_client.bat %CONFIGURATION%
 after_build:
-- ps: C:\projects\spectre\scripts\BindPageToIisAndCreateDataDir.ps1 -AppVeyor
-- cmd: C:\projects\spectre\scripts\package_project.bat DiviK Spectre.DivikWpfClient
-- cmd: C:\projects\spectre\scripts\package_project.bat DataValidatorApp Spectre.DataValidatorApp
-- cmd: C:\projects\spectre\scripts\package_project.bat DivikResultConverter Spectre.DivikResultConverter
-- cmd: C:\projects\spectre\scripts\package_web_project.bat WebAPI Spectre
-- cmd: C:\projects\spectre\scripts\package_angular_client.bat
+- ps: C:\projects\platform-components\scripts\BindPageToIisAndCreateDataDir.ps1 -AppVeyor
+- cmd: C:\projects\platform-components\scripts\package_project.bat DiviK Spectre.DivikWpfClient
+- cmd: C:\projects\platform-components\scripts\package_project.bat DataValidatorApp Spectre.DataValidatorApp
+- cmd: C:\projects\platform-components\scripts\package_project.bat DivikResultConverter Spectre.DivikResultConverter
+- cmd: C:\projects\platform-components\scripts\package_web_project.bat WebAPI Spectre
+- cmd: C:\projects\platform-components\scripts\package_angular_client.bat
 
 test_script:
-- cmd: C:\projects\spectre\scripts\test_native_code.bat
-- cmd: C:\projects\spectre\scripts\test_dotnet.bat --except Algorithm
-- cmd: C:\projects\spectre\scripts\test_frontend.bat
-- cmd: C:\projects\spectre\scripts\test_frontend_e2e.bat
+- cmd: C:\projects\platform-components\scripts\test_native_code.bat
+- cmd: C:\projects\platform-components\scripts\test_dotnet.bat --except Algorithm
+- cmd: C:\projects\platform-components\scripts\test_frontend.bat
+- cmd: C:\projects\platform-components\scripts\test_frontend_e2e.bat
 
 artifacts:
 - path: DiviK-$(configuration).zip
@@ -105,7 +105,7 @@ deploy:
 
 on_finish:
 #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-- cmd: C:\projects\spectre\scripts\upload-frontend-test-results.bat
+- cmd: C:\projects\platform-components\scripts\upload-frontend-test-results.bat
 
 notifications:
 # this publishes to Continuous Integration channel in Glip
