@@ -54,7 +54,7 @@ artifacts:
 
 deploy:
 - provider: GitHub
-  release: Spectre-v$(appveyor_build_version)
+  release: platform-components-v$(appveyor_build_version)
   auth_token:
     secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
   artifact: DataValidatorExecutables
