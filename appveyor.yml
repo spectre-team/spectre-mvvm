@@ -81,7 +81,7 @@ deploy:
       branch:
         - master
         - develop
-      configuration: Publish
+      configuration: Release
     draft: true
   # push all NuGet-s to our feed
   - provider: NuGet
@@ -95,7 +95,7 @@ deploy:
       branch:
         - master
         - develop
-      configuration: Publish
+      configuration: Release
 
 on_finish:
 #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
