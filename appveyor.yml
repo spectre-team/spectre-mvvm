@@ -44,8 +44,8 @@ build_script:
 - cmd: msbuild "C:\projects\platform-components\src\platform-components.sln" /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /m /verbosity:quiet /p:DeployOnBuild=true /p:PublishProfile=%CONFIGURATION% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 after_build:
 - cmd: C:\projects\platform-components\scripts\package_project.bat DataValidatorApp Spectre.DataValidatorApp
-- cmd: nuget pack C:\projects\platform-components\src\Spectre.Service.csproj -IncludeReferencedProjects
-- cmd: nuget pack C:\projects\platform-components\src\Spectre.Mvvm.csproj -IncludeReferencedProjects
+- cmd: nuget pack C:\projects\platform-components\src\Spectre.Service\Spectre.Service.csproj -IncludeReferencedProjects
+- cmd: nuget pack C:\projects\platform-components\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects
 
 test_script:
 - cmd: C:\projects\platform-components\scripts\test_dotnet.bat --except Algorithm
