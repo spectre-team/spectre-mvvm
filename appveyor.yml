@@ -53,6 +53,7 @@ build:
 after_build:
   - cmd: nuget pack C:\projects\platform-components\src\Spectre.Service\Spectre.Service.csproj -IncludeReferencedProjects
   - cmd: nuget pack C:\projects\platform-components\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects
+  - cmd: rmdir /s /q C:\projects\platform-components\src\packages
 
 
 artifacts:
@@ -76,7 +77,7 @@ deploy:
     release: platform-components-v$(appveyor_build_version)
     auth_token:
       secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-    artifact: /.*\^(packages).*.nupkg/
+    artifact: /.*\.nupkg/
     prerelease: false
     draft: true
   # push all manuals to GitHub releases
