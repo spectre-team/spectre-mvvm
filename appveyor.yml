@@ -60,6 +60,8 @@ artifacts:
   name: DataValidator-$(configuration)
 - path: .\docs\*.pdf
   name: Manuals
+- path: '**\*.nupkg'
+  name: NugetPackages-$(configuration)
 
 deploy:
   # push all packed apps to GitHub releases
@@ -74,9 +76,8 @@ deploy:
     release: platform-components-v$(appveyor_build_version)
     auth_token:
       secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-    artifacts:
-      - path: '**\*.nupkg'
-      - name: Nuget Packages
+    artifact: /.*\.nupkg/
+    prerelease: false
     draft: true
   # push all manuals to GitHub releases
   - provider: GitHub
