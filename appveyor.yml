@@ -74,7 +74,9 @@ deploy:
     release: platform-components-v$(appveyor_build_version)
     auth_token:
       secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-    artifact: /.**\*.nupkg/
+    artifacts:
+      - path: '**\*.nupkg'
+      - name: Nuget Packages
     draft: true
   # push all manuals to GitHub releases
   - provider: GitHub
