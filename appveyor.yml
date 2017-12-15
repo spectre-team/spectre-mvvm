@@ -76,7 +76,7 @@ deploy:
     release: platform-components-v$(appveyor_build_version)
     auth_token:
       secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-    artifact: /.*\.nupkg/
+    artifact: /.*\^(packages).*.nupkg/
     prerelease: false
     draft: true
   # push all manuals to GitHub releases
