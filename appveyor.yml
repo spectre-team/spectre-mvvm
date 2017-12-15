@@ -47,7 +47,7 @@ build:
   parallel: true
   project: .\src\platform-components.sln
   publish_nuget: true
-  publish_nuget_symbols: true
+  publish_nuget_symbols: false
   verbosity: quiet
 
 after_build:
@@ -78,7 +78,6 @@ deploy:
     auth_token:
       secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
     artifact: /.*\.nupkg/
-    prerelease: false
     draft: true
   # push all manuals to GitHub releases
   - provider: GitHub
