@@ -1,3 +1,14 @@
+platform: x64
+environment:
+  nuget_user:
+    secure: kWtlS49bKmP0IFXmdvDHmxGI8mS0xQGrwiJoco9nYtA=
+  nuget_password:
+    secure: Pzvx2CQjxp8eCBP+nFI2eg==
+  appveyor_rdp_password:
+    secure: Pzvx2CQjxp8eCBP+nFI2eg==
+configuration:
+  - Debug
+  - Release
 version: 3.0.0.{build}
 
 init:
@@ -6,13 +17,13 @@ init:
 - cmd: echo Branch - %APPVEYOR_REPO_BRANCH%
 - cmd: echo Author - %APPVEYOR_REPO_COMMIT_AUTHOR%
 - cmd: echo Commit - %APPVEYOR_REPO_COMMIT%
-#- cmd: echo (%APPVEYOR_REPO_COMMIT_MESSAGE%)
-#- cmd: echo (%APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%)
 - cmd: echo Platform - %PLATFORM%
 - cmd: echo Configuration - %CONFIGURATION%
 - cmd: IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-alpha) ELSE IF "%APPVEYOR_REPO_BRANCH%"=="develop" (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-beta) ELSE IF NOT "%APPVEYOR_REPO_BRANCH%"=="master" (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-alpha)
 - cmd: echo Version - %APPVEYOR_BUILD_VERSION%
 #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+# Here comes automated git clone by AppVeyor
 
 nuget:
   account_feed: false
@@ -28,17 +39,6 @@ assembly_info:
   assembly_version: "{version}"
   assembly_file_version: "{version}"
   assembly_informational_version: "{version}"
-platform: x64
-environment:
-  nuget_user:
-    secure: kWtlS49bKmP0IFXmdvDHmxGI8mS0xQGrwiJoco9nYtA=
-  nuget_password:
-    secure: Pzvx2CQjxp8eCBP+nFI2eg==
-  appveyor_rdp_password:
-    secure: Pzvx2CQjxp8eCBP+nFI2eg==
-configuration:
-  - Debug
-  - Release
 
 # skip branch build if there is an active pull request
 skip_branch_with_pr: true
