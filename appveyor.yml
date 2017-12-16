@@ -10,7 +10,7 @@ init:
 #- cmd: echo (%APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%)
 - cmd: echo Platform - %PLATFORM%
 - cmd: echo Configuration - %CONFIGURATION%
-- cmd: IF %APPVEYOR_REPO_BRANCH%=='develop' (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-beta)
+- cmd: IF %APPVEYOR_REPO_BRANCH%=='develop' (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-beta) ELSE IF NOT %APPVEYOR_REPO_BRANCH%=='master' (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-alpha)
 - cmd: echo Version - %APPVEYOR_BUILD_VERSION%
 #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
@@ -61,8 +61,8 @@ artifacts:
   name: DataValidator-$(configuration)
 - path: .\docs\*.pdf
   name: Manuals
-- path: '**\*.nupkg'
-  name: NugetPackages-$(configuration)
+#- path: '**\*.nupkg'
+#  name: NugetPackages-$(configuration)
 
 deploy:
   # push all packed apps to GitHub releases
@@ -100,9 +100,9 @@ deploy:
     symbol_server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
     artifact: /.*\.nupkg/
     on:
-      branch:
-        - master
-        - develop
+#      branch:
+#        - master
+#        - develop
       configuration: Release
 
 on_finish:
