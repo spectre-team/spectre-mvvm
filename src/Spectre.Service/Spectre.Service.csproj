@@ -100,7 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Spectre.ico" />
-    <Content Include="Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
