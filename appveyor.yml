@@ -1,11 +1,3 @@
-version: 3.0.0.{build}
-# enable patching of AssemblyInfo.* files
-assembly_info:
-  patch: true
-  file: AssemblyInfo.*
-  assembly_version: "{version}"
-  assembly_file_version: "{version}"
-  assembly_informational_version: "{version}"
 platform: x64
 environment:
   nuget_user:
@@ -17,9 +9,7 @@ environment:
 configuration:
   - Debug
   - Release
-
-# skip branch build if there is an active pull request
-skip_branch_with_pr: true
+version: 3.0.0.{build}
 
 init:
 - cmd: echo Project - %APPVEYOR_PROJECT_NAME%
@@ -27,11 +17,13 @@ init:
 - cmd: echo Branch - %APPVEYOR_REPO_BRANCH%
 - cmd: echo Author - %APPVEYOR_REPO_COMMIT_AUTHOR%
 - cmd: echo Commit - %APPVEYOR_REPO_COMMIT%
-#- cmd: echo (%APPVEYOR_REPO_COMMIT_MESSAGE%)
-#- cmd: echo (%APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%)
 - cmd: echo Platform - %PLATFORM%
 - cmd: echo Configuration - %CONFIGURATION%
+- cmd: IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-alpha) ELSE IF "%APPVEYOR_REPO_BRANCH%"=="develop" (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-beta) ELSE IF NOT "%APPVEYOR_REPO_BRANCH%"=="master" (SET APPVEYOR_BUILD_VERSION=%APPVEYOR_BUILD_VERSION%-alpha)
+- cmd: echo Version - %APPVEYOR_BUILD_VERSION%
 #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+# Here comes automated git clone by AppVeyor
 
 nuget:
   account_feed: false
@@ -40,25 +32,76 @@ nuget:
 install:
 - cmd: C:\projects\platform-components\scripts\restore_nugets.bat
 
-build_script:
-- cmd: msbuild "C:\projects\platform-components\src\platform-components.sln" /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /m /verbosity:quiet /p:DeployOnBuild=true /p:PublishProfile=%CONFIGURATION% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-after_build:
-- cmd: C:\projects\platform-components\scripts\package_project.bat DataValidatorApp Spectre.DataValidatorApp
+# enable patching of AssemblyInfo.* files
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
 
-test_script:
-- cmd: C:\projects\platform-components\scripts\test_dotnet.bat --except Algorithm
+# skip branch build if there is an active pull request
+skip_branch_with_pr: true
+
+build:
+  parallel: true
+  project: .\src\platform-components.sln
+  publish_nuget: true
+  publish_nuget_symbols: false
+  verbosity: quiet
+
+after_build:
+  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Service\Spectre.Service.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
+  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
+  - cmd: rmdir /s /q C:\projects\platform-components\src\packages
+
 
 artifacts:
-- path: DataValidatorApp-$(configuration).zip
-  name: DataValidatorExecutables
+- path: .\src\Spectre.DataValidatorApp\bin\$(platform)\$(configuration)
+  name: DataValidator-$(configuration)
+- path: .\docs\*.pdf
+  name: Manuals
+- path: '**\*.nupkg'
+  name: NugetPackages-$(configuration)
 
 deploy:
-- provider: GitHub
-  release: platform-components-v$(appveyor_build_version)
-  auth_token:
-    secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-  artifact: DataValidatorExecutables
-  draft: true
+  # push all packed apps to GitHub releases
+  - provider: GitHub
+    release: platform-components-v$(appveyor_build_version)
+    auth_token:
+      secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
+    artifact: /.*\.zip/
+    draft: true
+  # push all NuGet-s to GitHub releases
+  # overwrites Debug NuGets with Release ones
+  - provider: GitHub
+    release: platform-components-v$(appveyor_build_version)
+    auth_token:
+      secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
+    artifact: /.*\.nupkg/
+    draft: true
+  # push all manuals to GitHub releases
+  - provider: GitHub
+    release: platform-components-v$(appveyor_build_version)
+    auth_token:
+      secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
+    artifact: Manuals
+    on:
+      branch:
+        - master
+        - develop
+      configuration: Release
+    draft: true
+  # push all NuGet-s to our feed
+  - provider: NuGet
+    server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
+    api_key:
+      secure: t8FO9T5wMCmRVqjBKL+8u6wmF+EPGJ8NDgcZoH7hbk4=
+    skip_symbols: true
+    symbol_server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
+    artifact: /.*\.nupkg/
+    on:
+      configuration: Release
 
 on_finish:
 #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

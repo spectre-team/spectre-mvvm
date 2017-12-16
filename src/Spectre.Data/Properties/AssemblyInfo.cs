@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Spectre.Data")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Library for datasets I/O and maintenance")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("The Spectre Team")]
 [assembly: AssemblyProduct("Spectre.Data")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © 2017 Spectre")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
