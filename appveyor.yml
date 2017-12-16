@@ -61,8 +61,8 @@ artifacts:
   name: DataValidator-$(configuration)
 - path: .\docs\*.pdf
   name: Manuals
-#- path: '**\*.nupkg'
-#  name: NugetPackages-$(configuration)
+- path: '**\*.nupkg'
+  name: NugetPackages-$(configuration)
 
 deploy:
   # push all packed apps to GitHub releases
@@ -96,7 +96,7 @@ deploy:
     server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
     api_key:
       secure: t8FO9T5wMCmRVqjBKL+8u6wmF+EPGJ8NDgcZoH7hbk4=
-    skip_symbols: false
+    skip_symbols: true
     symbol_server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
     artifact: /.*\.nupkg/
     on:
