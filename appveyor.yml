@@ -51,8 +51,8 @@ build:
   verbosity: quiet
 
 after_build:
-  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Service\Spectre.Service.csproj -IncludeReferencedProjects
-  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects
+  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Service\Spectre.Service.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
+  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
   - cmd: rmdir /s /q C:\projects\platform-components\src\packages
 
 
@@ -73,6 +73,7 @@ deploy:
     artifact: /.*\.zip/
     draft: true
   # push all NuGet-s to GitHub releases
+  # overwrites Debug NuGets with Release ones
   - provider: GitHub
     release: platform-components-v$(appveyor_build_version)
     auth_token:
@@ -100,9 +101,6 @@ deploy:
     symbol_server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
     artifact: /.*\.nupkg/
     on:
-#      branch:
-#        - master
-#        - develop
       configuration: Release
 
 on_finish:
