@@ -27,15 +27,6 @@ namespace Spectre.Service
     public class ServiceFactory : IServiceFactory
     {
         /// <summary>
-        /// Factory method for getting <see cref="IDivikService"/>.
-        /// </summary>
-        /// <returns>New instance of <see cref="DivikService"/></returns>
-        public IDivikService GetDivikService()
-        {
-            return new DivikService();
-        }
-
-        /// <summary>
         /// Gets the console capture service.
         /// </summary>
         /// <param name="updateInterval">The update interval.</param>
@@ -43,6 +34,17 @@ namespace Spectre.Service
         public IConsoleCaptureService GetConsoleCaptureService(double updateInterval = 1000.0)
         {
             return new ConsoleCaptureService(updateInterval);
+        }
+
+        /// <summary>
+        /// Gets the path finder service.
+        /// </summary>
+        /// <returns>
+        /// IPathFinderInstance
+        /// </returns>
+        public IDatasetDetailsFinderService GetDatasetDetailsFinderService()
+        {
+            return new DatasetDetailsFinderService();
         }
     }
 }
