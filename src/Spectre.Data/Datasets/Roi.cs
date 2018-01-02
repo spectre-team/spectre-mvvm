@@ -35,7 +35,7 @@ namespace Spectre.Data.Datasets
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="roiPixels">The roipixel.</param>
-        public Roi(string name, int width, int height, IList<RoiPixel> roiPixels)
+        public Roi(string name, uint width, uint height, IList<RoiPixel> roiPixels)
         {
             Name = name;
             Width = width;
@@ -45,14 +45,13 @@ namespace Spectre.Data.Datasets
             {
                 throw new ArgumentOutOfRangeException("Given roi pixels cannot exceed specified dimensions.");
             }
-            else
-            {
-                RoiPixels = roiPixels;
-            }
+
+            RoiPixels = roiPixels;
+
         }
 
         /// <summary>
-        /// Gets or sets the roi pixels.
+        /// Gets the roi pixels.
         /// </summary>
         /// <value>
         /// The roi pixels.
@@ -73,7 +72,7 @@ namespace Spectre.Data.Datasets
         /// <value>
         /// The width.
         /// </value>
-        public int Width { get; }
+        public uint Width { get; }
 
         /// <summary>
         /// Gets the height.
@@ -81,6 +80,6 @@ namespace Spectre.Data.Datasets
         /// <value>
         /// The height.
         /// </value>
-        public int Height { get; }
+        public uint Height { get; }
     }
 }

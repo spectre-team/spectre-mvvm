@@ -42,25 +42,41 @@ namespace Spectre.Data.RoiIo
         /// <exception cref="FileNotFoundException">No *.png files found in directory or subdirectories</exception>
         public List<Roi> GetAllRoisFromDirectory(string path)
         {
-            var names = new List<string>();
             var rois = new List<Roi>();
+
+            var names = GetAllNamesFromDirectory(path);
+
+            for (var listIterator = 0; listIterator < names.Count; listIterator++)
+            {
+                rois.Add(RoiReaderTool(Path.Combine(path, names[listIterator])));
+            }
+
+            return rois;
+        }
+
+        /// <summary>
+        /// Gets names of all ROIs from directory.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        /// Returns names of all files in specified directory.
+        /// </returns>
+        /// <exception cref="FileNotFoundException">No *.png files found in directory.</exception>
+        public List<string> GetAllNamesFromDirectory(string path)
+        {
+            var names = new List<string>();
+
             var allfiles = System.IO.Directory.GetFiles(path, "*.png", SearchOption.TopDirectoryOnly);
 
             names = allfiles.ToList();
+            names.Sort();
 
             if (names.Count == 0)
             {
                 throw new FileNotFoundException("No *.png files found in directory.");
             }
 
-            var roiReader = new RoiReader();
-
-            for (var listIterator = 0; listIterator < names.Count; listIterator++)
-            {
-                rois.Add(roiReader.RoiDownloader(Path.Combine(path, names[listIterator])));
-            }
-
-            return rois;
+            return names;
         }
 
         /// <summary>
@@ -70,7 +86,7 @@ namespace Spectre.Data.RoiIo
         /// <returns>
         /// ROI dataset.
         /// </returns>
-        public Roi RoiDownloader(string path)
+        public Roi RoiReaderTool(string path)
         {
             var roiConverter = new RoiConverter();
             var bitmap = new Bitmap(path);

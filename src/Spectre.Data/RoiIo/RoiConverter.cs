@@ -39,12 +39,12 @@ namespace Spectre.Data.RoiIo
         public Roi BitmapToRoi(Bitmap bitmap, string name)
         {
             var color = default(Color);
-            var blackColor = 0;
+            var roiColor = 0;
 
             var roidataset = new Roi(
                 name,
-                bitmap.Width,
-                bitmap.Height,
+                (uint)bitmap.Width,
+                (uint)bitmap.Height,
                 new List<RoiPixel>());
 
             for (int xcoordinate = 0; xcoordinate < bitmap.Width; xcoordinate++)
@@ -52,7 +52,7 @@ namespace Spectre.Data.RoiIo
                 for (int ycoordinate = 0; ycoordinate < bitmap.Height; ycoordinate++)
                 {
                     color = bitmap.GetPixel(xcoordinate, ycoordinate);
-                    if (color.B == blackColor)
+                    if (color.B == roiColor)
                     {
                         roidataset.RoiPixels.Add(new RoiPixel(xcoordinate, ycoordinate));
                     }
@@ -71,10 +71,11 @@ namespace Spectre.Data.RoiIo
         /// </returns>
         public Bitmap RoiToBitmap(Roi roidataset)
         {
-            var bitmap = new Bitmap(roidataset.Width, roidataset.Height);
+            var bitmap = new Bitmap((int)roidataset.Width, (int)roidataset.Height);
+            Color backgroundColor = Color.White;
 
             var graphicsobject = Graphics.FromImage(bitmap);
-            graphicsobject.Clear(Color.White);
+            graphicsobject.Clear(backgroundColor);
 
             for (int listiterator = 0; listiterator < roidataset.RoiPixels.Count; listiterator++)
             {

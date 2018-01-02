@@ -15,6 +15,7 @@ namespace Spectre.Data.Tests
         public static string TestDirectoryPath = Path.GetFullPath(path);
         public static string TestReadFilesPath = Path.Combine(TestDirectoryPath, "image1.png");
         public static string TestWriteFilePath = Path.Combine(TestDirectoryPath, "writetestfile.png");
+        public static int ExpectedNumberOfRoisInDirectory = 3;
 
         public static Roi ReadRoiDataset = new Roi("image1", 6, 6, new List<RoiPixel>
         {
@@ -23,7 +24,7 @@ namespace Spectre.Data.Tests
             new RoiPixel(3, 1)
         });
 
-        public static Roi WriteRoiRataset = new Roi("writetestfile", 10, 10, new List<RoiPixel>
+        public static Roi WriteRoiDataset = new Roi("writetestfile", 10, 10, new List<RoiPixel>
         {
             new RoiPixel(1, 5),
             new RoiPixel(2, 5),
@@ -31,7 +32,7 @@ namespace Spectre.Data.Tests
             new RoiPixel(4, 5)
         });
 
-        public static Roi AddRoiRataset = new Roi("addtestfile", 10, 10, new List<RoiPixel>
+        public static Roi AddRoiDataset = new Roi("addtestfile", 10, 10, new List<RoiPixel>
         {
             new RoiPixel(1, 6),
             new RoiPixel(2, 6),

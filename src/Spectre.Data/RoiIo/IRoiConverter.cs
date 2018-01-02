@@ -38,7 +38,7 @@ namespace Spectre.Data.RoiIo
         Roi BitmapToRoi(Bitmap bitmap, string name);
 
         /// <summary>
-        /// ROIs to bitmap converter.
+        /// Roi to bitmap converter.
         /// </summary>
         /// <param name="roidataset">The roidataset.</param>
         /// <returns>

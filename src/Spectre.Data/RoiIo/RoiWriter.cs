@@ -24,48 +24,25 @@ using Spectre.Data.Datasets;
 namespace Spectre.Data.RoiIo
 {
     /// <summary>
-    /// Writes list of doubles into a png file.
+    /// Class representing method for writing files into a directory.
     /// </summary>
     public class RoiWriter
     {
         /// <summary>
-        /// The path
-        /// </summary>
-        private readonly string _path;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RoiWriter"/> class.
-        /// </summary>
-        public RoiWriter()
-        {
-            _path = System.IO.Path.GetFullPath(@"..\..\..\");
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RoiWriter" /> class.
-        /// Used to pass exact path to methods. Default constructor sets project directory
-        /// as current path.
-        /// </summary>
-        /// <param name="testpath">The testpath.</param>
-        public RoiWriter(string testpath)
-        {
-            _path = testpath;
-        }
-
-        /// <summary>
         /// Writes list of doubles into a png file.
         /// </summary>
         /// <param name="roidataset">The prototyp.</param>
-        public void RoiUploader(Roi roidataset)
+        /// <param name="path">The path.</param>
+        public void RoiWriterTool(Roi roidataset, string path)
         {
             var roiConverter = new RoiConverter();
 
-            var bitmap = roiConverter.RoiToBitmap(roidataset);
+            using (var bitmap = roiConverter.RoiToBitmap(roidataset))
+            {
+                var writepath = Path.GetFullPath(Path.Combine(path, roidataset.Name));
 
-            var writepath = Path.GetFullPath(Path.Combine(_path, roidataset.Name));
-
-            bitmap.Save(writepath + ".png", ImageFormat.Png);
-            bitmap.Dispose();
+                bitmap.Save(writepath + ".png", ImageFormat.Png);
+            }
         }
     }
 }

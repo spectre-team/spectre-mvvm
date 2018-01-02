@@ -28,25 +28,25 @@ namespace Spectre.Data.Tests
         [Test]
         public void WriteRoi_writes_file_properly()
         {
-            RoiWriter service = new RoiWriter(DataStub.TestDirectoryPath);
+            RoiWriter service = new RoiWriter();
 
-            service.RoiUploader(DataStub.WriteRoiRataset);
+            service.RoiWriterTool(DataStub.WriteRoiDataset, DataStub.TestDirectoryPath);
 
             RoiReader checkIfProperlyWrittenService = new RoiReader();
 
-            var writetestroi = checkIfProperlyWrittenService.RoiDownloader(DataStub.TestWriteFilePath);
+            var writetestroi = checkIfProperlyWrittenService.RoiReaderTool(DataStub.TestWriteFilePath);
 
-            Assert.AreEqual(actual: writetestroi.RoiPixels[0].XCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[0].XCoordinate);
-            Assert.AreEqual(actual: writetestroi.RoiPixels[0].YCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[0].YCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[0].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].XCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[0].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].YCoordinate);
 
-            Assert.AreEqual(actual: writetestroi.RoiPixels[1].XCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[1].XCoordinate);
-            Assert.AreEqual(actual: writetestroi.RoiPixels[1].YCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[1].YCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[1].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[1].XCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[1].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[1].YCoordinate);
 
-            Assert.AreEqual(actual: writetestroi.RoiPixels[2].XCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[2].XCoordinate);
-            Assert.AreEqual(actual: writetestroi.RoiPixels[2].YCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[2].YCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[2].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[2].XCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[2].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[2].YCoordinate);
 
-            Assert.AreEqual(actual: writetestroi.RoiPixels[3].XCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[3].XCoordinate);
-            Assert.AreEqual(actual: writetestroi.RoiPixels[3].YCoordinate, expected: DataStub.WriteRoiRataset.RoiPixels[3].YCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[3].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[3].XCoordinate);
+            Assert.AreEqual(actual: writetestroi.RoiPixels[3].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[3].YCoordinate);
         }
     }
 }

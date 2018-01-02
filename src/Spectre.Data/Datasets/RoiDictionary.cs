@@ -19,26 +19,30 @@
 */
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Spectre.Data.RoiIo;
 
 namespace Spectre.Data.Datasets
 {
     /// <summary>
-    /// Class representing a set of tool to manage ROIs.
+    /// Class representing a set of tools to manage ROIs.
     /// </summary>
     /// <seealso cref="Spectre.Data.Datasets.IRoiDictionary" />
     public class RoiDictionary : IRoiDictionary
     {
         private List<Roi> _roiDataset;
         private RoiReader _roireader = new RoiReader();
+        private string _path;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RoiDictionary" /> class.
+        /// Initializes the dictionary with specified path
+        /// and corresponding set of ROIs.
         /// </summary>
         /// <param name="path">The path.</param>
-        public RoiDictionary(string path)
+        public void InitializeDictionary(string path)
         {
+            _path = path;
             _roiDataset = _roireader.GetAllRoisFromDirectory(path);
         }
 
@@ -50,38 +54,57 @@ namespace Spectre.Data.Datasets
         /// Returns roi with specified name.
         /// Returns null if no roi with specified name found.
         /// </returns>
-        public List<Roi> GetRoiOrDefault(string name)
+        public Roi GetRoiOrDefault(string name)
         {
-            var dataset = _roiDataset.Where(r => r.Name == name).ToList();
+            var roi = _roiDataset.FirstOrDefault(r => r.Name == name);
 
-            if (dataset.Count() != 0)
+            if (roi != null)
             {
-                return dataset;
+                return roi;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         /// <summary>
-        /// Adds the specified name.
+        /// Adds the specified ROI to the dictionary and creates file on the disk.
         /// </summary>
         /// <param name="roi">The roi.</param>
         public void Add(Roi roi)
         {
             _roiDataset.Add(roi);
+
+            var roiWriterService = new RoiWriter();
+
+            roiWriterService.RoiWriterTool(roi, _path);
         }
 
         /// <summary>
-        /// Removes the record with specified name.
+        /// Removes the ROI with specified name from dictionary and from disk.
         /// </summary>
         /// <param name="name">The name.</param>
         public void Remove(string name)
         {
-            var query = _roiDataset.Where(r => r.Name == name);
-            var dataset = query.ToList();
-            _roiDataset.Remove(dataset.First());
+            var query = _roiDataset.FirstOrDefault(r => r.Name == name);
+            _roiDataset.Remove(query);
+
+            File.Delete(Path.Combine(_path, name + ".png"));
+        }
+
+        /// <summary>
+        /// Gets the roi names.
+        /// </summary>
+        /// <returns>Names of all rois in dictionary.</returns>
+        public List<string> GetRoiNames()
+        {
+            var allNames = new List<string>();
+
+            foreach (var roi in _roiDataset)
+            {
+                allNames.Add(roi.Name);
+            }
+
+            return allNames;
         }
     }
 }

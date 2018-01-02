@@ -2,7 +2,7 @@
     * IRoiDictionary.cs
     * Interface for RoiDictionary.
 
-    Copyright 2017 Roman LIsak
+    Copyright 2017 Roman Lisak
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ namespace Spectre.Data.Datasets
         /// Returns roi with specified name.
         /// Returns null if no roi with specified name found.
         /// </returns>
-        List<Roi> GetRoiOrDefault(string name);
+        Roi GetRoiOrDefault(string name);
 
         /// <summary>
         /// Adds the specified name.
@@ -52,5 +52,11 @@ namespace Spectre.Data.Datasets
         /// </summary>
         /// <param name="name">The name.</param>
         void Remove(string name);
+
+        /// <summary>
+        /// Gets the roi names.
+        /// </summary>
+        /// <returns>Names of all rois in dictionary.</returns>
+        List<string> GetRoiNames();
     }
 }
