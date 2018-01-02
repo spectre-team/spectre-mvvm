@@ -47,7 +47,6 @@ namespace Spectre.Data.Datasets
             }
 
             RoiPixels = roiPixels;
-
         }
 
         /// <summary>
