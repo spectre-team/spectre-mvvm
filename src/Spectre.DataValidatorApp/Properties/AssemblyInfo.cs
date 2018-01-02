@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Spectre.DataValidatorApp")]
+[assembly: AssemblyTitle("Data Validator")]
 [assembly: AssemblyDescription("This application sole purpose is to validate data file.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Spectre Team")]
-[assembly: AssemblyProduct("Spectre.DataValidatorApp")]
+[assembly: AssemblyCompany("The Spectre Team")]
+[assembly: AssemblyProduct("Data Validator")]
 [assembly: AssemblyCopyright("Copyright © 2017 Spectre")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

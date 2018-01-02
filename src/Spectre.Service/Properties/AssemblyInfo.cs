@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // zestaw atrybutów. Zmień wartości tych atrybutów, aby zmodyfikować informacje
 // powiązane z zestawem.
 [assembly: AssemblyTitle("Spectre.Service")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Temporary module for services used in Spectre tool.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("The Spectre Team")]
 [assembly: AssemblyProduct("Spectre.Service")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © 2017 Spectre")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
