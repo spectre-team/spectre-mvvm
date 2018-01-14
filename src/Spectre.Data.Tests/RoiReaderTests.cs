@@ -17,6 +17,7 @@
    limitations under the License.
 */
 
+using System.IO;
 using NUnit.Framework;
 using Spectre.Data.RoiIo;
 
@@ -28,9 +29,9 @@ namespace Spectre.Data.Tests
         [Test]
         public void GetAllRoisFromDirectory_returns_the_same_roi_as_on_the_disk_in_alphabetical_order()
         {
-            RoiReader service = new RoiReader();
+            RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
 
-            var allRoisFromDirectory = service.GetAllRoisFromDirectory(DataStub.TestDirectoryPath);
+            var allRoisFromDirectory = service.GetAllRoisFromDirectory();
 
             Assert.AreEqual(actual: allRoisFromDirectory.Count, expected: DataStub.ExpectedNumberOfRoisInDirectory, message: "Incorrect number of rois read from directory");
 
@@ -40,18 +41,18 @@ namespace Spectre.Data.Tests
 
             Assert.AreEqual(actual: allRoisFromDirectory[0].Height, expected: DataStub.AddRoiDataset.Height);
             Assert.AreEqual(actual: allRoisFromDirectory[1].Height, expected: DataStub.ReadRoiDataset.Height);
-            Assert.AreEqual(actual: allRoisFromDirectory[2].Height, expected: DataStub.WriteRoiDataset.Name);
+            Assert.AreEqual(actual: allRoisFromDirectory[2].Height, expected: DataStub.WriteRoiDataset.Height);
 
             Assert.AreEqual(actual: allRoisFromDirectory[0].Width, expected: DataStub.AddRoiDataset.Width);
             Assert.AreEqual(actual: allRoisFromDirectory[1].Width, expected: DataStub.ReadRoiDataset.Width);
-            Assert.AreEqual(actual: allRoisFromDirectory[2].Width, expected: DataStub.WriteRoiDataset.Name);
+            Assert.AreEqual(actual: allRoisFromDirectory[2].Width, expected: DataStub.WriteRoiDataset.Width);
         }
         
         [Test]
         public void ReadRoi_returns_proper_roi_pixels()
         {
-            RoiReader service = new RoiReader();
-            var roi = service.RoiReaderTool(DataStub.TestReadFilesPath);
+            RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
+            var roi = service.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestReadFilesPath));
 
             Assert.AreEqual(actual: roi.RoiPixels[0].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].XCoordinate);
             Assert.AreEqual(actual: roi.RoiPixels[0].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].YCoordinate);
@@ -66,8 +67,8 @@ namespace Spectre.Data.Tests
         [Test]
         public void ReadRoi_returns_proper_dimensions()
         {
-            RoiReader service = new RoiReader();
-            var roi = service.RoiReaderTool(DataStub.TestReadFilesPath);
+            RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
+            var roi = service.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestReadFilesPath));
 
             Assert.AreEqual(actual: roi.Height, expected: DataStub.ReadRoiDataset.Height);
             Assert.AreEqual(actual: roi.Width, expected: DataStub.ReadRoiDataset.Width);

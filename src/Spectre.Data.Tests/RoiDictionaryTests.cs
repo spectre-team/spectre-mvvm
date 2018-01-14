@@ -30,10 +30,11 @@ namespace Spectre.Data.Tests
     public class RoiDictionaryTests
     {
         [Test]
-        public void RoiDictionary_GetRoiOrDefault_returns_requested_roi()
+        public void GetRoiOrDefault_returns_requested_roi()
         {
             var roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.InitializeDictionary(DataStub.TestDirectoryPath);
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
             roiDictionaryService.Add(DataStub.ReadRoiDataset);
 
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
@@ -56,10 +57,11 @@ namespace Spectre.Data.Tests
         }
 
         [Test]
-        public void RoiDictionary_Add_adds_roi_properly()
+        public void Add_adds_roi_properly()
         {
             var roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.InitializeDictionary(DataStub.TestDirectoryPath);
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
 
             roiDictionaryService.Remove("addtestfile");
             var nonExistentRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
@@ -79,10 +81,11 @@ namespace Spectre.Data.Tests
         }
 
         [Test]
-        public void RoiDictionary_Remove_removes_from_dictionary_properly()
+        public void Remove_removes_from_dictionary_properly()
         {
             var roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.InitializeDictionary(DataStub.TestDirectoryPath);
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
 
             Assert.IsTrue(File.Exists(Path.Combine(DataStub.TestDirectoryPath, "addtestfile" + ".png")));
 
@@ -113,6 +116,15 @@ namespace Spectre.Data.Tests
                             new RoiPixel(1, 15)
                         });
                 });
+        }
+
+        [Test]
+        public void LoadSingleRoi_loads_properly()
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary();
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+
+            roiDictionaryService.LoadSingleRoi(Path.GetFileName(DataStub.TestReadFilesPath));
         }
     }
  }

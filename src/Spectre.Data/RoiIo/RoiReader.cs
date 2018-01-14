@@ -24,7 +24,7 @@ namespace Spectre.Data.RoiIo
     using System.Drawing;
     using System.IO;
     using System.Linq;
-    using Spectre.Data.Datasets;
+    using Datasets;
 
     /// <summary>
     /// Provides listing all available ROI's from directory.
@@ -33,22 +33,35 @@ namespace Spectre.Data.RoiIo
     public class RoiReader
     {
         /// <summary>
-        /// Lists the rois from directory.
+        /// The path to the Rois directory.
+        /// </summary>
+        private string _path;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoiReader"/> class.
         /// </summary>
         /// <param name="path">The path.</param>
+        public RoiReader(string path)
+        {
+            _path = path;
+        }
+
+        /// <summary>
+        /// Lists the rois from directory.
+        /// </summary>
         /// <returns>
         /// All ROIs in specified directory.
         /// </returns>
         /// <exception cref="FileNotFoundException">No *.png files found in directory or subdirectories</exception>
-        public List<Roi> GetAllRoisFromDirectory(string path)
+        public List<Roi> GetAllRoisFromDirectory()
         {
             var rois = new List<Roi>();
 
-            var names = GetAllNamesFromDirectory(path);
+            var names = GetAllNamesFromDirectory();
 
             for (var listIterator = 0; listIterator < names.Count; listIterator++)
             {
-                rois.Add(RoiReaderTool(Path.Combine(path, names[listIterator])));
+                rois.Add(GetSingleRoiFromDirectory(Path.Combine(_path, names[listIterator])));
             }
 
             return rois;
@@ -57,21 +70,15 @@ namespace Spectre.Data.RoiIo
         /// <summary>
         /// Gets names of all ROIs from directory.
         /// </summary>
-        /// <param name="path">The path.</param>
         /// <returns>
         /// Returns names of all files in specified directory.
         /// </returns>
         /// <exception cref="FileNotFoundException">No *.png files found in directory.</exception>
-        public List<string> GetAllNamesFromDirectory(string path)
+        public List<string> GetAllNamesFromDirectory()
         {
             var names = new List<string>();
 
-            var allfiles = Directory.GetFiles(path, "*.png", SearchOption.TopDirectoryOnly);
-
-            if (names.Count == 0)
-            {
-                throw new FileNotFoundException("No *.png files found in directory.");
-            }
+            var allfiles = Directory.GetFiles(_path, "*.png", SearchOption.TopDirectoryOnly);
 
             names = allfiles.ToList();
             names.Sort();
@@ -82,17 +89,17 @@ namespace Spectre.Data.RoiIo
         /// <summary>
         /// Loads single ROI from specified folded.
         /// </summary>
-        /// <param name="path">The path.</param>
+        /// <param name="fileName">Name of the file with extension.</param>
         /// <returns>
         /// ROI dataset.
         /// </returns>
-        public Roi RoiReaderTool(string path)
+        public Roi GetSingleRoiFromDirectory(string fileName)
         {
             var roiConverter = new RoiConverter();
 
-            using (var bitmap = new Bitmap(path))
+            using (var bitmap = new Bitmap(Path.Combine(_path, fileName)))
             {
-                var roidataset = roiConverter.BitmapToRoi(bitmap, Path.GetFileNameWithoutExtension(path));
+                var roidataset = roiConverter.BitmapToRoi(bitmap, Path.GetFileNameWithoutExtension(fileName));
                 return roidataset;
             }
         }

@@ -17,6 +17,7 @@
    limitations under the License.
 */
 
+using System.IO;
 using NUnit.Framework;
 using Spectre.Data.RoiIo;
 
@@ -32,9 +33,9 @@ namespace Spectre.Data.Tests
 
             service.RoiWriterTool(DataStub.WriteRoiDataset, DataStub.TestDirectoryPath);
 
-            RoiReader reader = new RoiReader();
+            RoiReader reader = new RoiReader(DataStub.TestDirectoryPath);
 
-            var writetestroi = reader.RoiReaderTool(DataStub.TestWriteFilePath);
+            var writetestroi = reader.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestWriteFilePath));
 
             Assert.AreEqual(actual: writetestroi.RoiPixels[0].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].XCoordinate);
             Assert.AreEqual(actual: writetestroi.RoiPixels[0].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].YCoordinate);

@@ -27,7 +27,25 @@ namespace Spectre.Data.Datasets
     public interface IRoiDictionary
     {
         /// <summary>
-        /// Tries to get specified ROI from list by name.
+        /// Sets the directory path.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        void SetDirectoryPath(string directoryPath);
+
+        /// <summary>
+        /// Loads all Rois from directory to the list.
+        /// All elements in the list will be overwritten.
+        /// </summary>
+        void LoadAllRois();
+
+        /// <summary>
+        /// Loads the single roi from directory and adds to the Roi list.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        void LoadSingleRoi(string fileName);
+
+        /// <summary>
+        /// Tries to get specified value from list by name.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>
@@ -37,13 +55,13 @@ namespace Spectre.Data.Datasets
         Roi GetRoiOrDefault(string name);
 
         /// <summary>
-        /// Adds the specified name.
+        /// Adds the specified ROI to the dictionary and creates file on the disk.
         /// </summary>
         /// <param name="roi">The roi.</param>
         void Add(Roi roi);
 
         /// <summary>
-        /// Removes the record with specified name.
+        /// Removes the ROI with specified name from dictionary and from disk.
         /// </summary>
         /// <param name="name">The name.</param>
         void Remove(string name);
