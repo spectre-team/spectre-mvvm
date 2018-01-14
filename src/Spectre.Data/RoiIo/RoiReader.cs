@@ -66,15 +66,15 @@ namespace Spectre.Data.RoiIo
         {
             var names = new List<string>();
 
-            var allfiles = System.IO.Directory.GetFiles(path, "*.png", SearchOption.TopDirectoryOnly);
-
-            names = allfiles.ToList();
-            names.Sort();
+            var allfiles = Directory.GetFiles(path, "*.png", SearchOption.TopDirectoryOnly);
 
             if (names.Count == 0)
             {
                 throw new FileNotFoundException("No *.png files found in directory.");
             }
+
+            names = allfiles.ToList();
+            names.Sort();
 
             return names;
         }
@@ -89,11 +89,12 @@ namespace Spectre.Data.RoiIo
         public Roi RoiReaderTool(string path)
         {
             var roiConverter = new RoiConverter();
-            var bitmap = new Bitmap(path);
 
-            var roidataset = roiConverter.BitmapToRoi(bitmap, Path.GetFileNameWithoutExtension(path));
-            bitmap.Dispose();
-            return roidataset;
+            using (var bitmap = new Bitmap(path))
+            {
+                var roidataset = roiConverter.BitmapToRoi(bitmap, Path.GetFileNameWithoutExtension(path));
+                return roidataset;
+            }
         }
     }
 }

@@ -54,17 +54,7 @@ namespace Spectre.Data.Datasets
         /// Returns roi with specified name.
         /// Returns null if no roi with specified name found.
         /// </returns>
-        public Roi GetRoiOrDefault(string name)
-        {
-            var roi = _roiDataset.FirstOrDefault(r => r.Name == name);
-
-            if (roi != null)
-            {
-                return roi;
-            }
-
-            return null;
-        }
+        public Roi GetRoiOrDefault(string name) => _roiDataset.FirstOrDefault(r => r.Name == name);
 
         /// <summary>
         /// Adds the specified ROI to the dictionary and creates file on the disk.
@@ -95,7 +85,7 @@ namespace Spectre.Data.Datasets
         /// Gets the roi names.
         /// </summary>
         /// <returns>Names of all rois in dictionary.</returns>
-        public List<string> GetRoiNames()
+        public IList<string> GetRoiNames()
         {
             var allNames = new List<string>();
 

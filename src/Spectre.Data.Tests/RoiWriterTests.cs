@@ -23,7 +23,7 @@ using Spectre.Data.RoiIo;
 namespace Spectre.Data.Tests
 {
     [TestFixture]
-    class RoiWriterTests
+    public class RoiWriterTests
     {
         [Test]
         public void WriteRoi_writes_file_properly()
@@ -32,9 +32,9 @@ namespace Spectre.Data.Tests
 
             service.RoiWriterTool(DataStub.WriteRoiDataset, DataStub.TestDirectoryPath);
 
-            RoiReader checkIfProperlyWrittenService = new RoiReader();
+            RoiReader reader = new RoiReader();
 
-            var writetestroi = checkIfProperlyWrittenService.RoiReaderTool(DataStub.TestWriteFilePath);
+            var writetestroi = reader.RoiReaderTool(DataStub.TestWriteFilePath);
 
             Assert.AreEqual(actual: writetestroi.RoiPixels[0].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].XCoordinate);
             Assert.AreEqual(actual: writetestroi.RoiPixels[0].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].YCoordinate);

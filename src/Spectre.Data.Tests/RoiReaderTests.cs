@@ -23,7 +23,7 @@ using Spectre.Data.RoiIo;
 namespace Spectre.Data.Tests
 {
     [TestFixture]
-    class RoiReaderTests
+    public class RoiReaderTests
     {
         [Test]
         public void GetAllRoisFromDirectory_returns_the_same_roi_as_on_the_disk_in_alphabetical_order()
@@ -40,11 +40,11 @@ namespace Spectre.Data.Tests
 
             Assert.AreEqual(actual: allRoisFromDirectory[0].Height, expected: DataStub.AddRoiDataset.Height);
             Assert.AreEqual(actual: allRoisFromDirectory[1].Height, expected: DataStub.ReadRoiDataset.Height);
-            Assert.AreEqual(actual: allRoisFromDirectory[2].Name, expected: DataStub.WriteRoiDataset.Name);
+            Assert.AreEqual(actual: allRoisFromDirectory[2].Height, expected: DataStub.WriteRoiDataset.Name);
 
             Assert.AreEqual(actual: allRoisFromDirectory[0].Width, expected: DataStub.AddRoiDataset.Width);
             Assert.AreEqual(actual: allRoisFromDirectory[1].Width, expected: DataStub.ReadRoiDataset.Width);
-            Assert.AreEqual(actual: allRoisFromDirectory[2].Name, expected: DataStub.WriteRoiDataset.Name);
+            Assert.AreEqual(actual: allRoisFromDirectory[2].Width, expected: DataStub.WriteRoiDataset.Name);
         }
         
         [Test]
