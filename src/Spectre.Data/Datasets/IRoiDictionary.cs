@@ -67,7 +67,7 @@ namespace Spectre.Data.Datasets
         void Remove(string name);
 
         /// <summary>
-        /// Gets the roi names.
+        /// Gets the roi names from list .
         /// </summary>
         /// <returns>Names of all rois in dictionary.</returns>
         IList<string> GetRoiNames();

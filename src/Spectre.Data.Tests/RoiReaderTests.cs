@@ -49,10 +49,10 @@ namespace Spectre.Data.Tests
         }
         
         [Test]
-        public void ReadRoi_returns_proper_roi_pixels()
+        public void GetSingleRoiFromDirectory_returns_proper_roi_pixels()
         {
             RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
-            var roi = service.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestReadFilesPath));
+            var roi = service.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestReadFilePath));
 
             Assert.AreEqual(actual: roi.RoiPixels[0].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].XCoordinate);
             Assert.AreEqual(actual: roi.RoiPixels[0].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].YCoordinate);
@@ -65,13 +65,25 @@ namespace Spectre.Data.Tests
         }
 
         [Test]
-        public void ReadRoi_returns_proper_dimensions()
+        public void GetSingleRoiFromDirectory_returns_proper_dimensions()
         {
             RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
-            var roi = service.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestReadFilesPath));
+            var roi = service.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestReadFilePath));
 
             Assert.AreEqual(actual: roi.Height, expected: DataStub.ReadRoiDataset.Height);
             Assert.AreEqual(actual: roi.Width, expected: DataStub.ReadRoiDataset.Width);
+        }
+
+        [Test]
+        public void GetAllNamesFromDirectory_gets_all_names_properly()
+        {
+            RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
+
+            var names = service.GetAllNamesFromDirectory();
+
+            Assert.AreEqual(actual: Path.GetFileNameWithoutExtension(names[0]), expected: DataStub.AddRoiDataset.Name);
+            Assert.AreEqual(actual: Path.GetFileNameWithoutExtension(names[1]), expected: DataStub.ReadRoiDataset.Name);
+            Assert.AreEqual(actual: Path.GetFileNameWithoutExtension(names[2]), expected: DataStub.WriteRoiDataset.Name);
         }
     }
 }

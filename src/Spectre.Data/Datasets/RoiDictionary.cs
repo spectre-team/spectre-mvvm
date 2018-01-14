@@ -31,7 +31,7 @@ namespace Spectre.Data.Datasets
     /// <seealso cref="Spectre.Data.Datasets.IRoiDictionary" />
     public class RoiDictionary : IRoiDictionary
     {
-        private List<Roi> _roiDataset;
+        private List<Roi> _roiDataset = new List<Roi>();
         private RoiReader _roireader;
         private string _directoryPath;
 
@@ -42,6 +42,7 @@ namespace Spectre.Data.Datasets
         public void SetDirectoryPath(string directoryPath)
         {
             _directoryPath = directoryPath;
+            _roireader = new RoiReader(_directoryPath);
         }
 
         /// <summary>
@@ -50,7 +51,6 @@ namespace Spectre.Data.Datasets
         /// </summary>
         public void LoadAllRois()
         {
-            _roireader = new RoiReader(_directoryPath);
             _roiDataset = _roireader.GetAllRoisFromDirectory();
         }
 
@@ -99,7 +99,7 @@ namespace Spectre.Data.Datasets
         }
 
         /// <summary>
-        /// Gets the roi names.
+        /// Gets the roi names from list.
         /// </summary>
         /// <returns>Names of all rois in dictionary.</returns>
         public IList<string> GetRoiNames()

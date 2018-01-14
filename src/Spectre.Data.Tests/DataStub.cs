@@ -13,7 +13,7 @@ namespace Spectre.Data.Tests
     {
         static readonly string path = Path.Combine(TestContext.CurrentContext.TestDirectory, ".." , "..", "..", "..", "..", "test_files","Rois");
         public static string TestDirectoryPath = Path.GetFullPath(path);
-        public static string TestReadFilesPath = Path.Combine(TestDirectoryPath, "image1.png");
+        public static string TestReadFilePath = Path.Combine(TestDirectoryPath, "image1.png");
         public static string TestWriteFilePath = Path.Combine(TestDirectoryPath, "writetestfile.png");
         public static int ExpectedNumberOfRoisInDirectory = 3;
 
