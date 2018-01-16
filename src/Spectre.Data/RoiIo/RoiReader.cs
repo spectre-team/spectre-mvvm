@@ -18,6 +18,8 @@
    limitations under the License.
 */
 
+using System.Runtime.CompilerServices;
+
 namespace Spectre.Data.RoiIo
 {
     using System.Collections.Generic;
@@ -61,7 +63,7 @@ namespace Spectre.Data.RoiIo
 
             for (var listIterator = 0; listIterator < names.Count; listIterator++)
             {
-                rois.Add(GetSingleRoiFromDirectory(Path.Combine(_path, names[listIterator])));
+                rois.Add(GetSingleRoiFromDirectoryOrDefault(Path.Combine(names[listIterator])));
             }
 
             return rois;
@@ -80,6 +82,11 @@ namespace Spectre.Data.RoiIo
 
             var allfiles = Directory.GetFiles(_path, "*.png", SearchOption.TopDirectoryOnly);
 
+            for (int iterator = 0; iterator < allfiles.Length; iterator++)
+            {
+                allfiles[iterator] = Path.GetFileNameWithoutExtension(allfiles[iterator]);
+            }
+
             names = allfiles.ToList();
             names.Sort();
 
@@ -89,15 +96,20 @@ namespace Spectre.Data.RoiIo
         /// <summary>
         /// Loads single ROI from specified folded.
         /// </summary>
-        /// <param name="fileName">Name of the file with extension.</param>
+        /// <param name="fileName">Name of the file without extension.</param>
         /// <returns>
         /// ROI dataset.
         /// </returns>
-        public Roi GetSingleRoiFromDirectory(string fileName)
+        public Roi GetSingleRoiFromDirectoryOrDefault(string fileName)
         {
             var roiConverter = new RoiConverter();
 
-            using (var bitmap = new Bitmap(Path.Combine(_path, fileName)))
+            if (!File.Exists(Path.Combine(_path, fileName + ".png")))
+            {
+                return null;
+            }
+
+            using (var bitmap = new Bitmap(Path.Combine(_path, fileName + ".png")))
             {
                 var roidataset = roiConverter.BitmapToRoi(bitmap, Path.GetFileNameWithoutExtension(fileName));
                 return roidataset;

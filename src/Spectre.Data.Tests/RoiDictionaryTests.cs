@@ -33,12 +33,10 @@ namespace Spectre.Data.Tests
         [Test]
         public void GetRoiOrDefault_returns_requested_roi([Values(0, 1, 2)] int iterator)
         {
-            var roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
+            var roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
 
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
-            var nonExistentRoi = roiDictionaryService.GetRoiOrDefault("nonexistentroi");
+            var obtainedRoi = roiDictionaryService.LoadSingleRoiOrDefault("image1");
+            var nonExistentRoi = roiDictionaryService.LoadSingleRoiOrDefault("nonexistentroi");
 
             Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.ReadRoiDataset.Name, message: "Read name is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.ReadRoiDataset.Height, message: "Read height is incorrect.");
@@ -54,10 +52,9 @@ namespace Spectre.Data.Tests
         public void Add_adds_roi_properly()
         {
             var roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
 
             roiDictionaryService.Remove("addtestfile");
-            var nonExistentRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
+            var nonExistentRoi = roiDictionaryService.LoadSingleRoiOrDefault("addtestfile");
 
             Assert.IsNull(nonExistentRoi, "nonExistentRoi != null");
 
@@ -67,7 +64,7 @@ namespace Spectre.Data.Tests
 
             roiDictionaryService.Add(DataStub.AddRoiDataset);
 
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
+            var obtainedRoi = roiDictionaryService.LoadSingleRoiOrDefault("addtestfile");
 
             Assert.AreEqual(actual: obtainedRoi.Name, expected: "addtestfile");
             Assert.IsTrue(File.Exists(Path.Combine(DataStub.TestDirectoryPath, "addtestfile" + ".png")));
@@ -83,7 +80,7 @@ namespace Spectre.Data.Tests
 
             roiDictionaryService.Remove("addtestfile");
 
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
+            var obtainedRoi = roiDictionaryService.LoadSingleRoiOrDefault("addtestfile");
 
             Assert.IsNull(obtainedRoi);
 
@@ -114,54 +111,8 @@ namespace Spectre.Data.Tests
         public void LoadAllRois_First_file_name_and_dimensions_loads_properly()
         {
             RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
-
-            Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.ReadRoiDataset.Name, message: "Read name is incorrect.");
-            Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.ReadRoiDataset.Height, message: "Read height is incorrect.");
-            Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.ReadRoiDataset.Width, message: "Read width is incorrect.");
-        }
-
-        [Test]
-        public void LoadAllRois_First_file_coordinates_loads_properly([Values(0, 1, 2)] int iterator)
-        {
-            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
-            
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
-        }
-
-        [Test]
-        public void LoadAllRois_Second_file_name_and_dimensions_loads_properly()
-        {
-            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("writetestfile");
-
-            Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.WriteRoiDataset.Name, message: "Read name is incorrect.");
-            Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.WriteRoiDataset.Height, message: "Read height is incorrect.");
-            Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.WriteRoiDataset.Width, message: "Read width is incorrect.");
-        }
-
-        [Test]
-        public void LoadAllRois_Second_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
-        {
-            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("writetestfile");
-
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
-        }
-
-        [Test]
-        public void LoadAllRois_Third_file_name_and_dimensions_loads_properly()
-        {
-            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
+            var roiDataset = roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDataset[0];
 
             Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.AddRoiDataset.Name, message: "Read name is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.AddRoiDataset.Height, message: "Read height is incorrect.");
@@ -169,15 +120,62 @@ namespace Spectre.Data.Tests
         }
 
         [Test]
-        public void LoadAllRois_Third_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
+        public void LoadAllRois_First_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
         {
             RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
-            roiDictionaryService.LoadAllRois();
-            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
+            var roiDataset = roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDataset[0];
 
             Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
             Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
         }
+
+        [Test]
+        public void LoadAllRois_Second_file_name_and_dimensions_loads_properly()
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
+            var roiDataset = roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDataset[1];
+
+            Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.ReadRoiDataset.Name, message: "Read name is incorrect.");
+            Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.ReadRoiDataset.Height, message: "Read height is incorrect.");
+            Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.ReadRoiDataset.Width, message: "Read width is incorrect.");
+        }
+
+        [Test]
+        public void LoadAllRois_Second_file_coordinates_loads_properly([Values(0, 1, 2)] int iterator)
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
+            var roiDataset = roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDataset[1];
+            
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
+        }
+
+        [Test]
+        public void LoadAllRois_Third_file_name_and_dimensions_loads_properly()
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
+            var roiDataset = roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDataset[2];
+
+            Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.WriteRoiDataset.Name, message: "Read name is incorrect.");
+            Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.WriteRoiDataset.Height, message: "Read height is incorrect.");
+            Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.WriteRoiDataset.Width, message: "Read width is incorrect.");
+        }
+
+        [Test]
+        public void LoadAllRois_Third_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
+            var roiDataset = roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDataset[2];
+
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
+        }
+
 
         [Test]
         public void GetRoiNames_gets_proper_names()

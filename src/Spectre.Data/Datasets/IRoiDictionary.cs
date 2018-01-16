@@ -30,31 +30,20 @@ namespace Spectre.Data.Datasets
         /// Loads all Rois from directory to the list.
         /// All elements in the list will be overwritten.
         /// </summary>
-        void LoadAllRois();
+        /// <returns>
+        /// Dataset with all rois.
+        /// </returns>
+        IList<Roi> LoadAllRois();
 
         /// <summary>
-        /// Loads the single roi from directory and adds to the Roi list.
+        /// Gets specified single roi from directory.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        void LoadSingleRoi(string fileName);
-
-        /// <summary>
-        /// Tries to get specified value from list by name.
-        /// </summary>
-        /// <param name="name">The name.</param>
         /// <returns>
         /// Returns roi with specified name.
         /// Returns null if no roi with specified name found.
         /// </returns>
-        Roi GetRoiOrDefault(string name);
-
-        /// <summary>
-        /// Gets all rois from the list.
-        /// </summary>
-        /// <returns>
-        /// All rois from the list.
-        /// </returns>
-        List<Roi> GetRoiDataset();
+        Roi LoadSingleRoiOrDefault(string fileName);
 
         /// <summary>
         /// Adds the specified ROI to the dictionary and creates file on the disk.

@@ -21,6 +21,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using Spectre.Data.RoiIo;
 
 namespace Spectre.Data.Datasets
@@ -31,9 +32,8 @@ namespace Spectre.Data.Datasets
     /// <seealso cref="Spectre.Data.Datasets.IRoiDictionary" />
     public class RoiDictionary : IRoiDictionary
     {
-        private List<Roi> _roiDataset = new List<Roi>();
-        private RoiReader _roireader;
-        private string _directoryPath;
+        private readonly RoiReader _roireader;
+        private readonly string _directoryPath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoiDictionary"/> class.
@@ -47,39 +47,21 @@ namespace Spectre.Data.Datasets
 
         /// <summary>
         /// Loads all Rois from directory to the list.
-        /// All elements in the list will be overwritten.
         /// </summary>
-        public void LoadAllRois()
-        {
-            _roiDataset = _roireader.GetAllRoisFromDirectory();
-        }
+        /// <returns>
+        /// Dataset with all rois.
+        /// </returns>
+        public IList<Roi> LoadAllRois() => _roireader.GetAllRoisFromDirectory();
 
         /// <summary>
-        /// Loads the single roi from directory and adds to the Roi list.
+        /// Gets specified single roi from directory.
         /// </summary>
-        /// <param name="fileName">Name of the file with extension.</param>
-        public void LoadSingleRoi(string fileName)
-        {
-            _roiDataset.Add(_roireader.GetSingleRoiFromDirectory(fileName));
-        }
-
-        /// <summary>
-        /// Tries to get specified value from list by name.
-        /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name="fileName">Name of the file.</param>
         /// <returns>
         /// Returns roi with specified name.
         /// Returns null if no roi with specified name found.
         /// </returns>
-        public Roi GetRoiOrDefault(string name) => _roiDataset.FirstOrDefault(r => r.Name == name);
-
-        /// <summary>
-        /// Gets all rois from the list.
-        /// </summary>
-        /// <returns>
-        /// All rois from the list.
-        /// </returns>
-        public List<Roi> GetRoiDataset() => _roiDataset;
+        public Roi LoadSingleRoiOrDefault(string fileName) => _roireader.GetSingleRoiFromDirectoryOrDefault(fileName);
 
         /// <summary>
         /// Adds the specified ROI to the dictionary and creates file on the disk.
@@ -87,10 +69,7 @@ namespace Spectre.Data.Datasets
         /// <param name="roi">The roi.</param>
         public void Add(Roi roi)
         {
-            _roiDataset.Add(roi);
-
             var roiWriterService = new RoiWriter();
-
             roiWriterService.RoiWriterTool(roi, _directoryPath);
         }
 
@@ -100,9 +79,6 @@ namespace Spectre.Data.Datasets
         /// <param name="name">The name.</param>
         public void Remove(string name)
         {
-            var query = _roiDataset.FirstOrDefault(r => r.Name == name);
-            _roiDataset.Remove(query);
-
             File.Delete(Path.Combine(_directoryPath, name + ".png"));
         }
 
@@ -110,16 +86,6 @@ namespace Spectre.Data.Datasets
         /// Gets the roi names from list.
         /// </summary>
         /// <returns>Names of all rois in dictionary.</returns>
-        public IList<string> GetRoiNames()
-        {
-            var allNames = new List<string>();
-
-            foreach (var roi in _roiDataset)
-            {
-                allNames.Add(roi.Name);
-            }
-
-            return allNames;
-        }
+        public IList<string> GetRoiNames() => _roireader.GetAllNamesFromDirectory();
     }
 }

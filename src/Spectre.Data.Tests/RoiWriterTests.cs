@@ -32,7 +32,7 @@ namespace Spectre.Data.Tests
             RoiWriter service = new RoiWriter();
             service.RoiWriterTool(DataStub.WriteRoiDataset, DataStub.TestDirectoryPath);
             RoiReader reader = new RoiReader(DataStub.TestDirectoryPath);
-            var writetestroi = reader.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestWriteFilePath));
+            var writetestroi = reader.GetSingleRoiFromDirectoryOrDefault(Path.GetFileNameWithoutExtension(DataStub.TestWriteFilePath));
 
             Assert.AreEqual(actual: writetestroi.RoiPixels[iterator].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].XCoordinate);
             Assert.AreEqual(actual: writetestroi.RoiPixels[iterator].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].YCoordinate);
