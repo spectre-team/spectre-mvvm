@@ -57,14 +57,8 @@ namespace Spectre.Data.RoiIo
         /// <exception cref="FileNotFoundException">No *.png files found in directory or subdirectories</exception>
         public List<Roi> GetAllRoisFromDirectory()
         {
-            var rois = new List<Roi>();
-
             var names = GetAllNamesFromDirectory();
-
-            for (var listIterator = 0; listIterator < names.Count; listIterator++)
-            {
-                rois.Add(GetSingleRoiFromDirectoryOrDefault(Path.Combine(names[listIterator])));
-            }
+            var rois = names.Select(name => GetSingleRoiFromDirectoryOrDefault(Path.Combine(_path, name))).ToList();
 
             return rois;
         }

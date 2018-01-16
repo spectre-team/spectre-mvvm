@@ -47,7 +47,7 @@ namespace Spectre.Data.Tests
         }
 
         [Test]
-        public void GetSingleRoiFromDirectory_returns_proper_roi_pixels([Values(0, 1, 2)] int iterator)
+        public void GetSingleRoiFromDirectoryOrDefault_returns_proper_roi_pixels([Values(0, 1, 2)] int iterator)
         {
             RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
             var roi = service.GetSingleRoiFromDirectoryOrDefault(Path.GetFileNameWithoutExtension(DataStub.TestReadFilePath));
@@ -57,7 +57,7 @@ namespace Spectre.Data.Tests
         }
 
         [Test]
-        public void GetSingleRoiFromDirectory_returns_proper_dimensions()
+        public void GetSingleRoiFromDirectoryOrDefault_returns_proper_dimensions()
         {
             RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
             var roi = service.GetSingleRoiFromDirectoryOrDefault(Path.GetFileNameWithoutExtension(DataStub.TestReadFilePath));
