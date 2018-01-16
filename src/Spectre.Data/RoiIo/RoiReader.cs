@@ -37,7 +37,12 @@ namespace Spectre.Data.RoiIo
         /// <summary>
         /// The path to the Rois directory.
         /// </summary>
-        private string _path;
+        private readonly string _path;
+
+        /// <summary>
+        /// The roi converter
+        /// </summary>
+        private readonly RoiConverter _roiConverter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoiReader"/> class.
@@ -45,6 +50,7 @@ namespace Spectre.Data.RoiIo
         /// <param name="path">The path.</param>
         public RoiReader(string path)
         {
+            _roiConverter = new RoiConverter();
             _path = path;
         }
 
@@ -96,8 +102,6 @@ namespace Spectre.Data.RoiIo
         /// </returns>
         public Roi GetSingleRoiFromDirectoryOrDefault(string fileName)
         {
-            var roiConverter = new RoiConverter();
-
             if (!File.Exists(Path.Combine(_path, fileName + ".png")))
             {
                 return null;
@@ -105,7 +109,7 @@ namespace Spectre.Data.RoiIo
 
             using (var bitmap = new Bitmap(Path.Combine(_path, fileName + ".png")))
             {
-                var roidataset = roiConverter.BitmapToRoi(bitmap, Path.GetFileNameWithoutExtension(fileName));
+                var roidataset = _roiConverter.BitmapToRoi(bitmap, Path.GetFileNameWithoutExtension(fileName));
                 return roidataset;
             }
         }
