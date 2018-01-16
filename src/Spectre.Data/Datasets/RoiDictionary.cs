@@ -74,6 +74,14 @@ namespace Spectre.Data.Datasets
         public Roi GetRoiOrDefault(string name) => _roiDataset.FirstOrDefault(r => r.Name == name);
 
         /// <summary>
+        /// Gets all rois from the list.
+        /// </summary>
+        /// <returns>
+        /// All rois from the list.
+        /// </returns>
+        public List<Roi> GetRoiDataset() => _roiDataset;
+
+        /// <summary>
         /// Adds the specified ROI to the dictionary and creates file on the disk.
         /// </summary>
         /// <param name="roi">The roi.</param>
