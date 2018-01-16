@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using Spectre.Data.Datasets;
 
 namespace Spectre.Data.Tests
@@ -30,7 +31,7 @@ namespace Spectre.Data.Tests
     public class RoiDictionaryTests
     {
         [Test]
-        public void GetRoiOrDefault_returns_requested_roi()
+        public void GetRoiOrDefault_returns_requested_roi([Values(0, 1, 2)] int iterator)
         {
             var roiDictionaryService = new RoiDictionary();
             roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
@@ -43,15 +44,9 @@ namespace Spectre.Data.Tests
             Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.ReadRoiDataset.Height, message: "Read height is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.ReadRoiDataset.Width, message: "Read width is incorrect.");
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].YCoordinate, message: "Coordinates doesn't match.");
-
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[1].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[1].YCoordinate, message: "Coordinates doesn't match.");
-
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[2].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[2].YCoordinate, message: "Coordinates doesn't match.");
-
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
+            
             Assert.IsNull(nonExistentRoi, "nonExistentRoi != null");
         }
 
@@ -118,63 +113,78 @@ namespace Spectre.Data.Tests
         }
 
         [Test]
-        public void LoadAllRois_loads_properly()
+        public void LoadAllRois_First_file_name_and_dimensions_loads_properly()
         {
             RoiDictionary roiDictionaryService = new RoiDictionary();
             roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
-
             roiDictionaryService.LoadAllRois();
-
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
 
             Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.ReadRoiDataset.Name, message: "Read name is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.ReadRoiDataset.Height, message: "Read height is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.ReadRoiDataset.Width, message: "Read width is incorrect.");
+        }
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].YCoordinate, message: "Coordinates doesn't match.");
+        [Test]
+        public void LoadAllRois_First_file_coordinates_loads_properly([Values(0, 1, 2)] int iterator)
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary();
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
+            
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
+        }
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[1].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[1].YCoordinate, message: "Coordinates doesn't match.");
-
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[2].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[2].YCoordinate, message: "Coordinates doesn't match.");
-
-            obtainedRoi = roiDictionaryService.GetRoiOrDefault("writetestfile");
+        [Test]
+        public void LoadAllRois_Second_file_name_and_dimensions_loads_properly()
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary();
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("writetestfile");
 
             Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.WriteRoiDataset.Name, message: "Read name is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.WriteRoiDataset.Height, message: "Read height is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.WriteRoiDataset.Width, message: "Read width is incorrect.");
+        }
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[0].YCoordinate, message: "Coordinates doesn't match.");
+        [Test]
+        public void LoadAllRois_Second_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary();
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("writetestfile");
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[1].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[1].YCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
+        }
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[2].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[2].YCoordinate, message: "Coordinates doesn't match.");
-
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[3].XCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[3].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[3].YCoordinate, expected: DataStub.WriteRoiDataset.RoiPixels[3].YCoordinate, message: "Coordinates doesn't match.");
-
-            obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
+        [Test]
+        public void LoadAllRois_Third_file_name_and_dimensions_loads_properly()
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary();
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
 
             Assert.AreEqual(actual: obtainedRoi.Name, expected: DataStub.AddRoiDataset.Name, message: "Read name is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Height, expected: DataStub.AddRoiDataset.Height, message: "Read height is incorrect.");
             Assert.AreEqual(actual: obtainedRoi.Width, expected: DataStub.AddRoiDataset.Width, message: "Read width is incorrect.");
+        }
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].XCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[0].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[0].YCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[0].YCoordinate, message: "Coordinates doesn't match.");
+        [Test]
+        public void LoadAllRois_Third_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
+        {
+            RoiDictionary roiDictionaryService = new RoiDictionary();
+            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            roiDictionaryService.LoadAllRois();
+            var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
 
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].XCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[1].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[1].YCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[1].YCoordinate, message: "Coordinates doesn't match.");
-
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].XCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[2].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[2].YCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[2].YCoordinate, message: "Coordinates doesn't match.");
-
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[3].XCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[3].XCoordinate, message: "Coordinates doesn't match.");
-            Assert.AreEqual(actual: obtainedRoi.RoiPixels[3].YCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[3].YCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].XCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[iterator].XCoordinate, message: "Coordinates doesn't match.");
+            Assert.AreEqual(actual: obtainedRoi.RoiPixels[iterator].YCoordinate, expected: DataStub.AddRoiDataset.RoiPixels[iterator].YCoordinate, message: "Coordinates doesn't match.");
         }
 
         [Test]
@@ -183,13 +193,11 @@ namespace Spectre.Data.Tests
             var roiDictionaryService = new RoiDictionary();
             roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
-
             var names = roiDictionaryService.GetRoiNames();
 
             Assert.AreEqual(actual: names[0], expected: "addtestfile");
             Assert.AreEqual(actual: names[1], expected: "image1");
             Assert.AreEqual(actual: names[2], expected: "writetestfile");
         }
-        
     }
 }

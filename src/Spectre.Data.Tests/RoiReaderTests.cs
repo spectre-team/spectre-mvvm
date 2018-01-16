@@ -47,21 +47,15 @@ namespace Spectre.Data.Tests
             Assert.AreEqual(actual: allRoisFromDirectory[1].Width, expected: DataStub.ReadRoiDataset.Width);
             Assert.AreEqual(actual: allRoisFromDirectory[2].Width, expected: DataStub.WriteRoiDataset.Width);
         }
-        
+
         [Test]
-        public void GetSingleRoiFromDirectory_returns_proper_roi_pixels()
+        public void GetSingleRoiFromDirectory_returns_proper_roi_pixels([Values(0, 1, 2)] int iterator)
         {
             RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
             var roi = service.GetSingleRoiFromDirectory(Path.GetFileName(DataStub.TestReadFilePath));
 
-            Assert.AreEqual(actual: roi.RoiPixels[0].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].XCoordinate);
-            Assert.AreEqual(actual: roi.RoiPixels[0].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[0].YCoordinate);
-
-            Assert.AreEqual(actual: roi.RoiPixels[1].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[1].XCoordinate);
-            Assert.AreEqual(actual: roi.RoiPixels[1].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[1].YCoordinate);
-
-            Assert.AreEqual(actual: roi.RoiPixels[2].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[2].XCoordinate);
-            Assert.AreEqual(actual: roi.RoiPixels[2].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[2].YCoordinate);
+            Assert.AreEqual(actual: roi.RoiPixels[iterator].XCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].XCoordinate);
+            Assert.AreEqual(actual: roi.RoiPixels[iterator].YCoordinate, expected: DataStub.ReadRoiDataset.RoiPixels[iterator].YCoordinate);
         }
 
         [Test]
