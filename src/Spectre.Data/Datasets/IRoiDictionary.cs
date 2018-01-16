@@ -27,12 +27,6 @@ namespace Spectre.Data.Datasets
     public interface IRoiDictionary
     {
         /// <summary>
-        /// Sets the directory path.
-        /// </summary>
-        /// <param name="directoryPath">The directory path.</param>
-        void SetDirectoryPath(string directoryPath);
-
-        /// <summary>
         /// Loads all Rois from directory to the list.
         /// All elements in the list will be overwritten.
         /// </summary>

@@ -53,8 +53,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void Add_adds_roi_properly()
         {
-            var roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            var roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
 
             roiDictionaryService.Remove("addtestfile");
@@ -77,8 +76,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void Remove_removes_from_dictionary_properly()
         {
-            var roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            var roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
 
             Assert.IsTrue(File.Exists(Path.Combine(DataStub.TestDirectoryPath, "addtestfile" + ".png")));
@@ -115,8 +113,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void LoadAllRois_First_file_name_and_dimensions_loads_properly()
         {
-            RoiDictionary roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
 
@@ -128,8 +125,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void LoadAllRois_First_file_coordinates_loads_properly([Values(0, 1, 2)] int iterator)
         {
-            RoiDictionary roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("image1");
             
@@ -140,8 +136,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void LoadAllRois_Second_file_name_and_dimensions_loads_properly()
         {
-            RoiDictionary roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("writetestfile");
 
@@ -153,8 +148,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void LoadAllRois_Second_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
         {
-            RoiDictionary roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("writetestfile");
 
@@ -165,8 +159,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void LoadAllRois_Third_file_name_and_dimensions_loads_properly()
         {
-            RoiDictionary roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
 
@@ -178,8 +171,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void LoadAllRois_Third_file_coordinates_loads_properly([Values(0, 1, 2, 3)] int iterator)
         {
-            RoiDictionary roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            RoiDictionary roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
             var obtainedRoi = roiDictionaryService.GetRoiOrDefault("addtestfile");
 
@@ -190,8 +182,7 @@ namespace Spectre.Data.Tests
         [Test]
         public void GetRoiNames_gets_proper_names()
         {
-            var roiDictionaryService = new RoiDictionary();
-            roiDictionaryService.SetDirectoryPath(DataStub.TestDirectoryPath);
+            var roiDictionaryService = new RoiDictionary(DataStub.TestDirectoryPath);
             roiDictionaryService.LoadAllRois();
             var names = roiDictionaryService.GetRoiNames();
 

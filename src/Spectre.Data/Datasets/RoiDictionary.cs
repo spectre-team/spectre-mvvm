@@ -36,10 +36,10 @@ namespace Spectre.Data.Datasets
         private string _directoryPath;
 
         /// <summary>
-        /// Sets the directory path.
+        /// Initializes a new instance of the <see cref="RoiDictionary"/> class.
         /// </summary>
         /// <param name="directoryPath">The directory path.</param>
-        public void SetDirectoryPath(string directoryPath)
+        public RoiDictionary(string directoryPath)
         {
             _directoryPath = directoryPath;
             _roireader = new RoiReader(_directoryPath);

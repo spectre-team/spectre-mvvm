@@ -30,9 +30,7 @@ namespace Spectre.Data.Tests
         public void GetAllRoisFromDirectory_returns_the_same_roi_as_on_the_disk_in_alphabetical_order()
         {
             RoiReader service = new RoiReader(DataStub.TestDirectoryPath);
-
             var allRoisFromDirectory = service.GetAllRoisFromDirectory();
-
             Assert.AreEqual(actual: allRoisFromDirectory.Count, expected: DataStub.ExpectedNumberOfRoisInDirectory, message: "Incorrect number of rois read from directory");
 
             Assert.AreEqual(actual: allRoisFromDirectory[0].Name, expected: DataStub.AddRoiDataset.Name);
