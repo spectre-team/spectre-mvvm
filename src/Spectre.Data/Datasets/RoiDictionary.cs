@@ -20,8 +20,6 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using Spectre.Data.RoiIo;
 
 namespace Spectre.Data.Datasets

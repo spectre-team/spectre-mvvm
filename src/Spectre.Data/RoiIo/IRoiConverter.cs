@@ -20,7 +20,7 @@
 namespace Spectre.Data.RoiIo
 {
     using System.Drawing;
-    using Spectre.Data.Datasets;
+    using Datasets;
 
     /// <summary>
     /// Interface for RoiConverter.

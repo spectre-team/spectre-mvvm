@@ -28,7 +28,6 @@ namespace Spectre.Data.Datasets
     {
         /// <summary>
         /// Loads all Rois from directory to the list.
-        /// All elements in the list will be overwritten.
         /// </summary>
         /// <returns>
         /// Dataset with all rois.
@@ -46,19 +45,19 @@ namespace Spectre.Data.Datasets
         Roi LoadSingleRoiOrDefault(string fileName);
 
         /// <summary>
-        /// Adds the specified ROI to the dictionary and creates file on the disk.
+        /// Creates file on the disk from ROI object.
         /// </summary>
         /// <param name="roi">The roi.</param>
         void Add(Roi roi);
 
         /// <summary>
-        /// Removes the ROI with specified name from dictionary and from disk.
+        /// Removes the ROI with specified name from disk.
         /// </summary>
         /// <param name="name">The name.</param>
         void Remove(string name);
 
         /// <summary>
-        /// Gets the roi names from list .
+        /// Gets the roi names from disk.
         /// </summary>
         /// <returns>Names of all rois in dictionary.</returns>
         IList<string> GetRoiNames();
