@@ -13,14 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Mvvm", "Spectre.Mvv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Mvvm.Tests", "Spectre.Mvvm.Tests\Spectre.Mvvm.Tests.csproj", "{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Service", "Spectre.Service\Spectre.Service.csproj", "{287A1A8D-C029-4D47-96BC-755C91B7985D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B5B60F79-653C-4E41-9721-06C478CE9E7C} = {B5B60F79-653C-4E41-9721-06C478CE9E7C}
-		{70C87AF7-3189-4F6C-AC85-93309CF7CFDC} = {70C87AF7-3189-4F6C-AC85-93309CF7CFDC}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Service.Tests", "Spectre.Service.Tests\Spectre.Service.Tests.csproj", "{1D79FD14-1DF4-4AED-94DF-62E595206DEF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9660DC51-B40B-454B-84B7-7FF830DA2D34}"
 	ProjectSection(SolutionItems) = preProject
 		CSharpCodingConvention.ruleset = CSharpCodingConvention.ruleset
@@ -54,14 +46,6 @@ Global
 		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Debug|x64.Build.0 = Debug|x64
 		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Release|x64.ActiveCfg = Release|x64
 		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Release|x64.Build.0 = Release|x64
-		{287A1A8D-C029-4D47-96BC-755C91B7985D}.Debug|x64.ActiveCfg = Debug|x64
-		{287A1A8D-C029-4D47-96BC-755C91B7985D}.Debug|x64.Build.0 = Debug|x64
-		{287A1A8D-C029-4D47-96BC-755C91B7985D}.Release|x64.ActiveCfg = Release|x64
-		{287A1A8D-C029-4D47-96BC-755C91B7985D}.Release|x64.Build.0 = Release|x64
-		{1D79FD14-1DF4-4AED-94DF-62E595206DEF}.Debug|x64.ActiveCfg = Debug|x64
-		{1D79FD14-1DF4-4AED-94DF-62E595206DEF}.Debug|x64.Build.0 = Debug|x64
-		{1D79FD14-1DF4-4AED-94DF-62E595206DEF}.Release|x64.ActiveCfg = Release|x64
-		{1D79FD14-1DF4-4AED-94DF-62E595206DEF}.Release|x64.Build.0 = Release|x64
 		{B5B60F79-653C-4E41-9721-06C478CE9E7C}.Debug|x64.ActiveCfg = Debug|x64
 		{B5B60F79-653C-4E41-9721-06C478CE9E7C}.Debug|x64.Build.0 = Debug|x64
 		{B5B60F79-653C-4E41-9721-06C478CE9E7C}.Release|x64.ActiveCfg = Release|x64
