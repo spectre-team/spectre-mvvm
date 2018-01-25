@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CSharpCodingConvention.ruleset = CSharpCodingConvention.ruleset
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Dependencies", "Spectre.Dependencies\Spectre.Dependencies.csproj", "{2B9F4DFD-C222-477A-9107-1A3C356002A4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -30,10 +28,6 @@ Global
 		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Debug|x64.Build.0 = Debug|x64
 		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Release|x64.ActiveCfg = Release|x64
 		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Release|x64.Build.0 = Release|x64
-		{2B9F4DFD-C222-477A-9107-1A3C356002A4}.Debug|x64.ActiveCfg = Debug|x64
-		{2B9F4DFD-C222-477A-9107-1A3C356002A4}.Debug|x64.Build.0 = Debug|x64
-		{2B9F4DFD-C222-477A-9107-1A3C356002A4}.Release|x64.ActiveCfg = Release|x64
-		{2B9F4DFD-C222-477A-9107-1A3C356002A4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
