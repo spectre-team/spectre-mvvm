@@ -66,7 +66,7 @@ deploy:
     release: spectre-mvvm-v$(appveyor_build_version)
     auth_token:
       secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-    artifact: Spectre.Mvvm.nupkg
+    artifact: /.*\.nupkg/
     draft: true
   # push all NuGet-s to our feed
   - provider: NuGet
@@ -75,7 +75,7 @@ deploy:
       secure: t8FO9T5wMCmRVqjBKL+8u6wmF+EPGJ8NDgcZoH7hbk4=
     skip_symbols: true
     symbol_server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
-    artifact: Spectre.Mvvm.nupkg
+    artifact: /.*\.nupkg/
     on:
       configuration: Release
 
