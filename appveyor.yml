@@ -45,33 +45,21 @@ skip_branch_with_pr: true
 
 build:
   parallel: true
-  project: .\src\platform-components.sln
+  project: .\src\spectre-mvvm.sln
   publish_nuget: true
   publish_nuget_symbols: false
   verbosity: quiet
 
 after_build:
-  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Service\Spectre.Service.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
-  - cmd: nuget pack C:\projects\platform-components\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
-  - cmd: rmdir /s /q C:\projects\platform-components\src\packages
+  - cmd: nuget pack C:\projects\spectre-mvvm\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
+  - cmd: rmdir /s /q C:\projects\spectre-mvvm\src\packages
 
 
 artifacts:
-- path: .\src\Spectre.DataValidatorApp\bin\$(platform)\$(configuration)
-  name: DataValidator-$(configuration)
-- path: .\docs\*.pdf
-  name: Manuals
 - path: '**\*.nupkg'
   name: NugetPackages-$(configuration)
 
 deploy:
-  # push all packed apps to GitHub releases
-  - provider: GitHub
-    release: platform-components-v$(appveyor_build_version)
-    auth_token:
-      secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-    artifact: /.*\.zip/
-    draft: true
   # push all NuGet-s to GitHub releases
   # overwrites Debug NuGets with Release ones
   - provider: GitHub
@@ -79,18 +67,6 @@ deploy:
     auth_token:
       secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
     artifact: /.*\.nupkg/
-    draft: true
-  # push all manuals to GitHub releases
-  - provider: GitHub
-    release: platform-components-v$(appveyor_build_version)
-    auth_token:
-      secure: dQadz+smqtuxpigZ/LmrUKyA0uVZ5kgljKntyoHEdobTycbeMywbfmiJtZPNcOQ2
-    artifact: Manuals
-    on:
-      branch:
-        - master
-        - develop
-      configuration: Release
     draft: true
   # push all NuGet-s to our feed
   - provider: NuGet
@@ -116,9 +92,9 @@ notifications:
   body: >-
     {
       "icon": "https://www.appveyor.com/assets/img/appveyor-logo-256.png",
-      "activity": "AppVeyor for platform-components",
+      "activity": "AppVeyor for spectre-mvvm",
       "title": "Build {{buildVersion}} **{{#failed}}failed{{/failed}}{{#passed}}passed{{/passed}}** in {{duration}}",
-      "body": "{{#isPullRequest}}Pull request: [#{{pullRequestId}}](https://github.com/spectre-team/spectre/pull/{{pullRequestId}})\n{{/isPullRequest}}Branch: [{{branch}}](https://github.com/spectre-team/spectre/tree/{{branch}})\nCommit: [{{commitId}} {{commitMessage}}](https://github.com/spectre-team/spectre/commit/{{commitId}})\nAuthor: {{commitAuthor}}\n[Build details]({{buildUrl}})"
+      "body": "{{#isPullRequest}}Pull request: [#{{pullRequestId}}](https://github.com/spectre-team/spectre-mvvm/pull/{{pullRequestId}})\n{{/isPullRequest}}Branch: [{{branch}}](https://github.com/spectre-team/spectre-mvvm/tree/{{branch}})\nCommit: [{{commitId}} {{commitMessage}}](https://github.com/spectre-team/spectre-mvvm/commit/{{commitId}})\nAuthor: {{commitAuthor}}\n[Build details]({{buildUrl}})"
     }
   on_build_success: true
   on_build_failure: true
