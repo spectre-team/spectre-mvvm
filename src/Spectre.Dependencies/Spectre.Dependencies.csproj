@@ -80,11 +80,5 @@
   <ItemGroup>
     <Content Include="Spectre.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Spectre.Database\Spectre.Database.csproj">
-      <Project>{b5b60f79-653c-4e41-9721-06c478ce9e7c}</Project>
-      <Name>Spectre.Database</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
