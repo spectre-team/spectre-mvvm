@@ -45,14 +45,14 @@ skip_branch_with_pr: true
 
 build:
   parallel: true
-  project: .\src\spectre-mvvm.sln
+  project: .\spectre-mvvm.sln
   publish_nuget: true
   publish_nuget_symbols: false
   verbosity: quiet
 
 after_build:
-  - cmd: nuget pack C:\projects\spectre-mvvm\src\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
-  - cmd: rmdir /s /q C:\projects\spectre-mvvm\src\packages
+  - cmd: nuget pack C:\projects\spectre-mvvm\Spectre.Mvvm\Spectre.Mvvm.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION%
+  - cmd: rmdir /s /q C:\projects\spectre-mvvm\packages
 
 
 artifacts:
