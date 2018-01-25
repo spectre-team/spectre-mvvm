@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Mvvm", "Spectre.Mvvm\Spectre.Mvvm.csproj", "{2D24F1E7-18D4-4FC0-9E4F-2F32FF27FCCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Mvvm.Tests", "Spectre.Mvvm.Tests\Spectre.Mvvm.Tests.csproj", "{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9660DC51-B40B-454B-84B7-7FF830DA2D34}"
+	ProjectSection(SolutionItems) = preProject
+		CSharpCodingConvention.ruleset = CSharpCodingConvention.ruleset
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D24F1E7-18D4-4FC0-9E4F-2F32FF27FCCE}.Debug|x64.ActiveCfg = Debug|x64
+		{2D24F1E7-18D4-4FC0-9E4F-2F32FF27FCCE}.Debug|x64.Build.0 = Debug|x64
+		{2D24F1E7-18D4-4FC0-9E4F-2F32FF27FCCE}.Release|x64.ActiveCfg = Release|x64
+		{2D24F1E7-18D4-4FC0-9E4F-2F32FF27FCCE}.Release|x64.Build.0 = Release|x64
+		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Debug|x64.ActiveCfg = Debug|x64
+		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Debug|x64.Build.0 = Debug|x64
+		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Release|x64.ActiveCfg = Release|x64
+		{23A97D0F-B6D9-4B67-84FE-4B52EA7D82EC}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED57AF8B-7937-40C6-9764-D313AB08FEC9}
+	EndGlobalSection
+EndGlobal
