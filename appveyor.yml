@@ -9,7 +9,7 @@ environment:
 configuration:
   - Debug
   - Release
-version: 3.1.1.{build}
+version: 3.2.0.{build}
 
 init:
 - cmd: echo Project - %APPVEYOR_PROJECT_NAME%
@@ -75,6 +75,13 @@ deploy:
       secure: t8FO9T5wMCmRVqjBKL+8u6wmF+EPGJ8NDgcZoH7hbk4=
     skip_symbols: true
     symbol_server: https://ci.appveyor.com/nuget/gmrukwa-xfn7vhwq20u6
+    artifact: /.*\.nupkg/
+    on:
+      configuration: Release
+  - provider: NuGet
+    api_key:
+      secure: UcjFz8S0ZXZt64qnxPjLt1Bn0LRbpup3hlWybGqHYVjeifhaIAZWgQDNIzQi0bpe
+    skip_symbols: true
     artifact: /.*\.nupkg/
     on:
       configuration: Release
